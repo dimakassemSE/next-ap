@@ -4,7 +4,7 @@ import { users } from "./users";
 import { signIn } from "next-auth/react";
 
 const authOptions = {
-	secret: process.env.AUTH_SECRET,
+	secret: process.env.NEXTAUTH_SECRET,
 	providers: [
 		CredentialsProvider({
 			// The name to display on the sign in form (e.g. 'Sign in with...')
