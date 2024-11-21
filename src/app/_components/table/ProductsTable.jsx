@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import getProducts from "../../api/data";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import Loading from "../Loading";
 const ProductTable = () => {
 	const [productList, setProductList] = useState([]);
 	const [rowsLimit] = useState(5);
@@ -58,7 +59,7 @@ const ProductTable = () => {
 		toast.success("Product Delete Successfully", 3000);
 	};
 	if (isLoading) {
-		return <div>Loading</div>;
+		return <Loading />;
 	}
 	return (
 		<div className="h-full bg-white flex  items-center justify-center">

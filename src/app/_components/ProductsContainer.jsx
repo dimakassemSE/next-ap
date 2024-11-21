@@ -4,16 +4,20 @@ import ProductCard from "./ProductCard";
 import getProducts from "../api/data";
 import SearchBar from "./SearchBar";
 import ErrorComponent from "./ErrorComponent";
+import Loading from "./Loading";
 
 function ProductsContainer() {
 	const [products, setProducts] = useState([]);
 	const [error, setError] = useState();
-	const fetchData = async () => {
-		return setProducts(await getProducts());
-	};
+	const [isLoading, setIsLoading] = useState(true);
 	useEffect(() => {
-		fetchData();
+		getProducts().then((data) => {
+			setProducts(data);
+		});
 	}, []);
+	useEffect(() => {
+		setIsLoading(false);
+	}, [products]);
 	const [productsFiltered, setProductFiltered] = useState([]);
 	return (
 		<div className="space-y-2">
@@ -23,6 +27,7 @@ function ProductsContainer() {
 				</h1>
 				<SearchBar
 					onSubmit={({ search }) => {
+						setError("");
 						console.log(search);
 						const dataFiltered = !search
 							? products
@@ -39,7 +44,9 @@ function ProductsContainer() {
 					}}
 				/>
 			</div>
-			{!error ? (
+			{isLoading ? (
+				<Loading />
+			) : !error ? (
 				<div>
 					{
 						<ul className="md:grid grid-cols-4 gap-4 space-y-2 md:space-y-0">
